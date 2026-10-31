@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090d">
+  <meta name="description" content="A 15-second motion design showreel by Parsa.">
+  <title>PARSA — Motion Design Showreel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;--ink:#08090d;--paper:#f3f1eb;--muted:#777985;--lime:#d8ff3e;--line:rgba(255,255,255,.13)}
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--ink);color:var(--paper);font-family:"Space Grotesk",Arial,sans-serif}
+    body{overflow-x:hidden}
+    .shell{min-height:100svh;display:grid;grid-template-rows:auto 1fr auto;padding:26px clamp(18px,4vw,64px) 22px;gap:20px}
+    header,.footer{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{font-size:13px;font-weight:700;letter-spacing:.19em}
+    .brand span{color:var(--lime)}
+    .meta,.footer,.control-label{font:10px "DM Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#92949e}
+    .meta{display:flex;gap:26px}
+    .live{display:inline-flex;align-items:center;gap:8px}
+    .live:before{content:"";width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime)}
+    main{display:grid;place-items:center;min-height:0}
+    .stage-wrap{width:min(100%,1180px);position:relative}
+    .stage{position:relative;aspect-ratio:16/9;overflow:hidden;background:#0b0d14;border:1px solid rgba(255,255,255,.12);box-shadow:0 28px 100px rgba(0,0,0,.48);isolation:isolate}
+    canvas{display:block;width:100%;height:100%}
+    .stage:after{content:"";position:absolute;inset:0;pointer-events:none;border:1px solid rgba(255,255,255,.06);z-index:2}
+    .corner{position:absolute;z-index:3;font:9px "DM Mono",monospace;letter-spacing:.16em;color:rgba(255,255,255,.48);text-transform:uppercase}
+    .corner.tl{top:18px;left:20px}.corner.tr{top:18px;right:20px}.corner.bl{bottom:18px;left:20px}.corner.br{bottom:18px;right:20px}
+    .play-center{position:absolute;z-index:4;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity .2s}
+    .stage.paused .play-center{opacity:1}
+    .play-center span{width:64px;height:64px;border:1px solid rgba(255,255,255,.5);border-radius:50%;display:grid;place-items:center;background:rgba(8,9,13,.35);backdrop-filter:blur(10px);font-size:19px;padding-left:3px}
+    .controls{display:grid;grid-template-columns:auto minmax(80px,1fr) auto;align-items:center;gap:18px;padding:16px 2px 0}
+    button{font:inherit;color:inherit;cursor:pointer}
+    .icon-btn{height:34px;min-width:38px;padding:0 12px;background:transparent;border:1px solid var(--line);color:var(--paper);font:10px "DM Mono",monospace;letter-spacing:.1em;transition:background .2s,border-color .2s}
+    .icon-btn:hover{border-color:var(--lime);background:rgba(216,255,62,.07)}
+    .icon-btn:focus-visible,input:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+    .timeline{display:grid;gap:8px;min-width:0}
+    .time-row{display:flex;justify-content:space-between;font:10px "DM Mono",monospace;color:#a3a5ae}
+    input[type=range]{appearance:none;width:100%;height:3px;background:linear-gradient(to right,var(--lime) 0%,var(--lime) var(--progress,0%),rgba(255,255,255,.18) var(--progress,0%),rgba(255,255,255,.18) 100%);cursor:pointer;margin:0}
+    input[type=range]::-webkit-slider-thumb{appearance:none;width:10px;height:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px rgba(216,255,62,.12)}
+    input[type=range]::-moz-range-thumb{width:10px;height:10px;border:0;border-radius:50%;background:var(--lime)}
+    .footer{border-top:1px solid var(--line);padding-top:17px}
+    .footer .note{color:#666975}
+    .footer strong{color:var(--paper);font-weight:500}
+    @media(max-width:640px){.shell{padding:18px 14px 16px;gap:14px}.meta{gap:10px;font-size:8px}.stage{aspect-ratio:4/5}.corner{font-size:7px}.corner.tl{top:12px;left:12px}.corner.tr{top:12px;right:12px}.corner.bl{bottom:12px;left:12px}.corner.br{bottom:12px;right:12px}.controls{gap:8px;grid-template-columns:auto minmax(60px,1fr) auto}.icon-btn{min-width:34px;padding:0 8px}.footer{font-size:8px;letter-spacing:.07em}.footer .note{display:none}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <div class="brand">P<span>/</span> PARSA</div>
+      <div class="meta"><span>INDEPENDENT MOTION DESIGNER</span><span class="live">SHOWREEL / 2026</span></div>
+    </header>
+    <main>
+      <section class="stage-wrap" aria-label="15-second motion design showreel">
+        <div class="stage" id="stage">
+          <canvas id="reel" aria-label="Animated motion design sequence"></canvas>
+          <div class="corner tl">PARSA® — SELECTED MOTION</div>
+          <div class="corner tr" id="sceneName">01 / THE OPEN</div>
+          <div class="corner bl">DESIGN · DIRECTION · MOVEMENT</div>
+          <div class="corner br">00:15 / LOOP</div>
+          <div class="play-center"><span>▶</span></div>
+        </div>
+        <div class="controls">
+          <button class="icon-btn" id="play" type="button" aria-label="Pause animation">Ⅱ</button>
+          <div class="timeline">
+            <div class="time-row"><span id="current">00:00</span><span>15 SEC / CONTINUOUS LOOP</span><span>00:15</span></div>
+            <input id="scrub" type="range" min="0" max="15" step=".01" value="0" aria-label="Seek through showreel">
+          </div>
+          <button class="icon-btn" id="restart" type="button" aria-label="Restart showreel">↺</button>
+        </div>
+      </section>
+    </main>
+    <footer class="footer"><span>AVAILABLE FOR SELECT PROJECTS</span><span class="note">A STUDY IN <strong>FORM, RHYTHM & IMPACT.</strong></span><span>© PARSA 2026</span></footer>
+  </div>
+<script>
+(() => {
+  const canvas=document.getElementById('reel'),ctx=canvas.getContext('2d',{alpha:false});
+  const stage=document.getElementById('stage'),playBtn=document.getElementById('play'),restartBtn=document.getElementById('restart'),scrub=document.getElementById('scrub'),current=document.getElementById('current'),sceneName=document.getElementById('sceneName');
+  const TAU=Math.PI*2, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W=1600,H=900,dpr=1,playing=!reduced,elapsed=0,last=0,raf=0,manual=false;
+  const lime='#d8ff3e',white='#f3f1eb',blue='#5d72ff',pink='#ff5e9b';
+  const clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v));
+  const smooth=v=>{v=clamp(v);return v*v*(3-2*v)};
+  const ease=v=>1-Math.pow(1-clamp(v),3);
+  const mix=(a,b,t)=>a+(b-a)*t;
+  function resize(){const r=canvas.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,2);W=Math.max(1,r.width);H=Math.max(1,r.height);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
+  new ResizeObserver(resize).observe(canvas);resize();
+  function text(str,x,y,size,color=white,weight=700,align='left',spacing=0){ctx.save();ctx.font=weight+' '+size+'px "Space Grotesk",Arial';ctx.textAlign=align;ctx.textBaseline='middle';ctx.fillStyle=color;if(spacing){let width=ctx.measureText(str).width+(str.length-1)*spacing;let xx=x-(align==='center'?width/2:align==='right'?width:0);for(const ch of str){ctx.fillText(ch,xx,y);xx+=ctx.measureText(ch).width+spacing}}else ctx.fillText(str,x,y);ctx.restore()}
+  function line(x1,y1,x2,y2,color='rgba(255,255,255,.2)',w=1){ctx.strokeStyle=color;ctx.lineWidth=w;ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke()}
+  function circle(x,y,r,fill,stroke=null,w=1){ctx.beginPath();ctx.arc(x,y,r,0,TAU);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=w;ctx.stroke()}}
+  function background(t,accent='#10131d'){ctx.fillStyle='#090b11';ctx.fillRect(0,0,W,H);let g=ctx.createRadialGradient(W*.52,H*.48,0,W*.52,H*.48,Math.max(W,H)*.7);g.addColorStop(0,accent);g.addColorStop(1,'#08090d');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.save();ctx.globalAlpha=.11;for(let x=0;x<W;x+=32)line(x,0,x,H,'#8e93a8',.45);for(let y=0;y<H;y+=32)line(0,y,W,y,'#8e93a8',.45);ctx.restore();ctx.save();ctx.globalAlpha=.13;for(let i=0;i<180;i++){let x=(i*97.13)%W,y=(i*173.71)%H;circle(x,y,1,'#fff')}ctx.restore()}
+  function glow(x,y,r,color,alpha=1){ctx.save();ctx.globalAlpha=alpha;let g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,color);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);ctx.restore()}
+  function ring(x,y,rx,ry,rot,color,width=2,alpha=1){ctx.save();ctx.translate(x,y);ctx.rotate(rot);ctx.globalAlpha=alpha;ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();ctx.ellipse(0,0,rx,ry,0,0,TAU);ctx.stroke();ctx.restore()}
+  function intro(t){background(t,'#141a2c');let p=ease(t/1.2),cx=W*.5,cy=H*.49;glow(cx,cy,Math.min(W,H)*.48,blue,.35);ctx.save();ctx.translate(cx,cy);ctx.rotate((1-p)*-.6);ctx.strokeStyle=lime;ctx.lineWidth=2;ctx.globalAlpha=p;ctx.strokeRect(-120*p,-120*p,240*p,240*p);ctx.restore();let y=cy+10;text('PARSA',cx, y,Math.min(W*.16,150)*p,white,700,'center',-2);text('MOTION DESIGNER',cx,cy+Math.min(H*.12,105),Math.min(W*.025,18)*p,lime,500,'center',4);line(W*.2,H*.78,W*.8,H*.78,'rgba(255,255,255,.22)');text('FORM WITH INTENT.',W*.2,H*.83,Math.min(W*.018,13),white,500,'left',2);text('001 — 2026',W*.8,H*.83,Math.min(W*.018,13),'#9296a5',400,'right',2)}
+  function kinetic(t){background(t,'#161b22');let p=ease(t/.42),cx=W*.5,cy=H*.5;ctx.save();ctx.translate(cx,cy);ctx.rotate((t-.5)*.08);ctx.globalAlpha=.22;for(let i=0;i<22;i++)line(-W, i*38-H/2,W,i*38-H/2,'#9ba4b8');ctx.restore();let words=['MAKE','IT','MOVE'];words.forEach((s,i)=>{let yy=cy+(i-1)*Math.min(H*.22,155),offset=(1-ease((t-i*.12)/.55))*W*.65;text(s,cx-offset,yy,Math.min(W*.19,170),i===1?lime:white,700,'center',-5)});ctx.save();ctx.translate(cx,cy);ctx.rotate(t*1.2);ctx.globalAlpha=.8;ctx.strokeStyle=pink;ctx.lineWidth=2;ctx.strokeRect(-Math.min(W,H)*.34,-Math.min(W,H)*.34,Math.min(W,H)*.68,Math.min(W,H)*.68);ctx.restore();text('A LITTLE LESS STATIC.',W*.08,H*.88,Math.min(W*.016,12),'#9da0a8',500,'left',2)}
+  function sculpture(t){background(t,'#101729');let cx=W*.52,cy=H*.5,s=Math.min(W,H)*.27;glow(cx,cy,s*2.4,blue,.48);for(let i=0;i<9;i++){let a=t*.8+i*TAU/9;ring(cx+Math.cos(a)*s*.13,cy+Math.sin(a)*s*.13,s*(.45+i*.035),s*(.16+i*.012),a*.65+i*.2,i%3===0?lime:i%3===1?blue:'#e8e6e1',i%3===0?2.4:1.3,.8)}for(let i=0;i<40;i++){let a=i*2.399+t*.6,r=s*(.25+(i%9)*.075);circle(cx+Math.cos(a)*r,cy+Math.sin(a)*r*.62,1.5+(i%3),i%4===0?lime:'#cbd2ff')}circle(cx,cy,s*.13,'#dce5ff');glow(cx,cy,s*.32,'#7289ff',.8);text('OBJECT STUDY / 01',W*.08,H*.14,Math.min(W*.016,12),lime,500,'left',2);text('LIGHT HAS\nWEIGHT.',W*.08,H*.78,Math.min(W*.045,40),white,700,'left',-1);text('3D · LIGHTING · PROCEDURAL',W*.92,H*.86,Math.min(W*.013,10),'#a0a4b0',400,'right',1)}
+  function product(t){background(t,'#21121d');let cx=W*.5,cy=H*.49,s=Math.min(W,H)*.28;glow(cx,cy,s*2,pink,.35);ctx.save();ctx.translate(cx,cy);ctx.rotate(-.22+t*.16);let grad=ctx.createLinearGradient(-s,-s,s,s);grad.addColorStop(0,'#f7f0e6');grad.addColorStop(.38,'#ff7ba9');grad.addColorStop(1,'#743cff');ctx.fillStyle=grad;ctx.shadowColor=pink;ctx.shadowBlur=45;ctx.fillRect(-s*.65,-s*.65,s*1.3,s*1.3);ctx.shadowBlur=0;ctx.globalCompositeOperation='destination-out';circle(0,0,s*.35,'#000');ctx.globalCompositeOperation='source-over';ctx.strokeStyle='rgba(255,255,255,.75)';ctx.lineWidth=2;ctx.strokeRect(-s*.65,-s*.65,s*1.3,s*1.3);ctx.restore();ring(cx,cy,s*.9,s*.3,t*.6,lime,2,.9);ring(cx,cy,s*1.05,s*.36,-t*.4,white,1,.45);text('OBJECTS / STORIES / FEELING',W*.08,H*.14,Math.min(W*.015,11),lime,500,'left',2);text('MAKE IT\nMATTER.',W*.08,H*.8,Math.min(W*.05,44),white,700,'left',-2);text('CAMPAIGN ART DIRECTION',W*.92,H*.86,Math.min(W*.013,10),'#c2a8b4',400,'right',1)}
+  function gridtype(t){background(t,'#151a20');let gap=W*.045;for(let i=0;i<7;i++)line(W*.08+i*gap,H*.13,W*.08+i*gap,H*.86,'rgba(255,255,255,.14)');for(let i=0;i<5;i++)line(W*.08,H*.13+i*gap,W*.92,H*.13+i*gap,'rgba(255,255,255,.14)');let words=['DESIGN','THAT','MOVES'];words.forEach((s,i)=>{let y=H*(.29+i*.22);text(s,W*.5+(i%2?1:-1)*(1-ease(t/.45))*W*.22,y,Math.min(W*.15,130),i===1?lime:white,700,'center',-3)});circle(W*.83,H*.27,Math.min(W,H)*.065,null,pink,2);ring(W*.83,H*.27,Math.min(W,H)*.09,Math.min(W,H)*.025,t*1.8,white,1,.8);text('TYPE / RHYTHM / SYSTEM',W*.08,H*.91,Math.min(W*.014,11),'#a3a8b4',500,'left',2)}
+  function endcard(t){background(t,'#121a18');let p=ease(t/.5),cx=W*.5,cy=H*.48;glow(cx,cy,Math.min(W,H)*.48,lime,.13);ctx.save();ctx.translate(cx,cy);ctx.rotate(t*.18);ctx.strokeStyle=lime;ctx.lineWidth=1.5;ctx.globalAlpha=.8;ctx.strokeRect(-Math.min(W,H)*.25,-Math.min(W,H)*.25,Math.min(W,H)*.5,Math.min(W,H)*.5);ctx.restore();text('PARSA',cx,cy-15,Math.min(W*.18,170)*p,white,700,'center',-3);text('MOTION DESIGNER',cx,cy+Math.min(H*.105,90),Math.min(W*.025,18)*p,lime,500,'center',4);line(W*.28,H*.76,W*.72,H*.76,'rgba(255,255,255,.28)');text('LET’S MAKE SOMETHING MOVE.',cx,H*.83,Math.min(W*.018,13),white,500,'center',2);text('DESIGN  /  DIRECTION  /  MOTION',cx,H*.9,Math.min(W*.012,9),'#858b91',400,'center',2)}
+  const scenes=[{a:0,b:2.5,n:'01 / THE OPEN',f:intro},{a:2.5,b:5.1,n:'02 / KINETIC TYPE',f:kinetic},{a:5.1,b:7.8,n:'03 / OBJECT STUDY',f:sculpture},{a:7.8,b:10.5,n:'04 / ART DIRECTION',f:product},{a:10.5,b:12.8,n:'05 / TYPOGRAPHY',f:gridtype},{a:12.8,b:15,n:'06 / SIGNATURE',f:endcard}];
+  function render(t){let s=scenes.find(x=>t>=x.a&&t<x.b)||scenes[scenes.length-1];s.f(t-s.a);sceneName.textContent=s.n;current.textContent='00:'+String(Math.floor(t)).padStart(2,'0');scrub.value=t;scrub.style.setProperty('--progress',(t/15*100)+'%')}
+  function tick(now){if(!playing)return;if(!last)last=now;let dt=Math.min((now-last)/1000,.05);last=now;elapsed+=dt;if(elapsed>=15)elapsed%=15;render(elapsed);raf=requestAnimationFrame(tick)}
+  function setPlaying(v){playing=v;stage.classList.toggle('paused',!v);playBtn.textContent=v?'Ⅱ':'▶';playBtn.setAttribute('aria-label',v?'Pause animation':'Play animation');if(v){last=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(tick)}else{cancelAnimationFrame(raf)}}
+  playBtn.addEventListener('click',()=>setPlaying(!playing));restartBtn.addEventListener('click',()=>{elapsed=0;render(0);setPlaying(true)});scrub.addEventListener('input',()=>{elapsed=Number(scrub.value);render(elapsed)});scrub.addEventListener('change',()=>{if(playing){last=0}});
+  stage.addEventListener('click',e=>{if(e.target.closest('button'))return;setPlaying(!playing)});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(raf);last=0}else if(playing){last=0;raf=requestAnimationFrame(tick)}});
+  if(reduced){render(0);playBtn.textContent='▶';playBtn.setAttribute('aria-label','Play animation')}else{render(0);raf=requestAnimationFrame(tick)}
+  document.fonts?.ready.then(()=>render(elapsed));
+})();
+</script>
+</body>
+</html>
